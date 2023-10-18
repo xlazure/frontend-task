@@ -1,7 +1,7 @@
 <template>
     <div :class="isMinView ? 'grid' : 'list'">
         <div :class="isMinView ? 'gridBox' : 'listBox'">
-            <img :src="item.image"/>
+            <img :src="item.image ? item.image : 'https://placehold.co/400'"/>
             <p>{{ item.title }}</p>
             <p>{{ item.animal }}</p>
             <p>{{ item.category }}</p>

@@ -27,7 +27,6 @@
                 <input type="button" value="Reset" @click="()=> productForm = productBlueprint"/>
             </div>
         </form>
-        {{ productForm }}
     </div>
 </template>
 

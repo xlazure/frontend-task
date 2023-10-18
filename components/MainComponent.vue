@@ -19,7 +19,7 @@
             <CategoryForm @updateFilter="updateFilter" @resetFilter="resetFilter"/>
             <input type="checkbox" v-model="config.isMinView"/>
         </div>
-        <ProductList :list="coreData.products" :isMinView="config.isMinView"/>
+        <ProductList :list="coreData.products" :pending="coreData.pending" :isMinView="config.isMinView"/>
     </div>
 </template>
 
@@ -92,13 +92,15 @@ const fakeProducts: productsType = [
 
 
 const coreData = reactive<any>({
-    products: []
+    products: [],
+    pending: true,
 })
 
 async function loadData(collectionName:string) {
     const querySnapshot = await getDocs(collection(db, collectionName));
     const data = querySnapshot.docs.map((doc) => ({data: doc.data(), id: doc.id}));
     coreData[collectionName] = [...data];
+    coreData.pending = false;
 }
 
 onMounted(()=>loadData('products'))

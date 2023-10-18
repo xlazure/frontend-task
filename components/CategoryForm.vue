@@ -17,7 +17,6 @@
 </template>
 
 <script setup lang="ts">
-
 const emits = defineEmits(['updateFilter','resetFilter'])
 
 function handleReset() {
@@ -38,9 +37,9 @@ const fakeData = {
         { name: "Akcesoria", value: "accessories" },
     ],
     animals: [
-        { name: "Jeż", value: "hedgehog" },
-        { name: "Ptaki", value: "bird" },
-        { name: "Chomiki", value: "hamster" },
+        { name: "Jeż", value: "Jeż" },
+        { name: "Ptak", value: "Ptak" },
+        { name: "Chomik", value: "Chomik" },
     ]
 };
 </script>

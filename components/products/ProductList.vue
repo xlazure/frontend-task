@@ -9,16 +9,9 @@
 </template>
 
 <script setup lang="ts">
-import {ref,onMounted} from "vue"
 import ProductItem from '@/components/products/ProductItem.vue'
 import Loader from '@/components/animations/Loader.vue'
-const pending = ref<boolean>(false)
-const {list, isMinView} = defineProps(['list', 'isMinView'])
-
-//    onMounted(()=>{
-//        if(list.length > 0) pending.value = false
-//    })
-
+const {list, isMinView,pending} = defineProps(['list', 'isMinView','pending'])
 </script>
 
 <style lang="scss" scoped>
