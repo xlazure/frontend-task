@@ -1,44 +1,37 @@
 <template>
-    <div :class="currentView">
-        <input type="checkbox" v-model="isMinView" />
-        <div :class="currentView2">
-            <img :src="item.image" />
+    <div :class="isMinView ? 'grid' : 'list'">
+        <div :class="isMinView ? 'gridBox' : 'listBox'">
+            <img :src="item.image"/>
             <p>{{ item.title }}</p>
-            <p>{{ item.animals }}</p>
-            <p>{{ item.categories }}</p>
+            <p>{{ item.animal }}</p>
+            <p>{{ item.category }}</p>
             <p>{{ item.price + " " + item.currency }}</p>
+            <button>Dodaj do koszyka</button>
         </div>
+
     </div>
 </template>
 
 <script setup lang="ts">
-import {computed,ref} from 'vue'
-const isMinView = ref(false);
-const { item } = defineProps(['item'])
-const currentView = computed(() => {
-  console.log('isMinView:', isMinView);
-  return isMinView ? 'grid' : 'list';
-});
-
-const currentView2 = computed(() => {
-  console.log('isMinView:', isMinView);
-  return isMinView ? 'gridBox' : 'listBox';
-});
+const {item, isMinView} = defineProps(['item', 'isMinView'])
 
 </script>
 
 <style lang="scss" scoped>
 .grid {
-    flex-basis:33.3%;
+    flex-basis: 33.3%;
 }
 
 .list {
-    flex-basis:100%;
+    margin-top: .5em;
+    flex-basis: 100%;
+    outline: 1px solid #c3c3c3;
 }
+
 .listBox {
     display: grid;
     align-items: center;
-    grid-template-columns: repeat(5, 1fr);
+    grid-template-columns: repeat(6, 1fr);
     grid-auto-rows: 60px;
 
 
@@ -50,8 +43,10 @@ const currentView2 = computed(() => {
         height: 100%;
     }
 }
+
 .gridBox {
-    padding: .4em;
+    padding: 1.4em;
+
     img {
         width: 100%;
     }
