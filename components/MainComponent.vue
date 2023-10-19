@@ -7,7 +7,7 @@
                 <button v-if="config.query.length > 0" @click="()=> config.query = ''">X</button>
             </div>
             <div class="results" v-if="results.length > 0 && config.focus">
-                <p v-for="res in results" @click="showProduct(res)">{{ res.title }}</p>
+                <p v-for="res in results" @click="showProduct(res.data)">{{ res.data.title }}</p>
             </div>
         </div>
         <NuxtLink to="panel">
@@ -19,7 +19,7 @@
             <CategoryForm @updateFilter="updateFilter" @resetFilter="resetFilter"/>
             <input type="checkbox" v-model="config.isMinView"/>
         </div>
-        <ProductList :list="coreData.products" :pending="coreData.pending" :isMinView="config.isMinView"/>
+        <ProductList :list="newArray" :pending="coreData.pending" :isMinView="config.isMinView"/>
     </div>
 </template>
 
@@ -39,56 +39,56 @@ type productsType = {
     price: number,
     currency: string
 }
-const fakeProducts: productsType = [
-    {
-        title: "Domek sosnowy",
-        animals: ['bird'],
-        categories: 'three-house',
-        image: "https://placehold.co/400",
-        price: 256.99,
-        currency: "PLN"
-    },
-    {
-        title: "Domek brzozowy",
-        animals: ['bird'],
-        categories: 'three-house',
-        image: "https://placehold.co/400",
-        price: 336.99,
-        currency: "PLN"
-    },
-    {
-        title: "Domek dębowy",
-        animals: ['bird'],
-        categories: 'three-house',
-        image: "https://placehold.co/400",
-        price: 96.99,
-        currency: "PLN"
-    },
-    {
-        title: "Mała Chatka",
-        animals: ['hamster', 'hedgehog'],
-        categories: 'ground-house',
-        image: "https://placehold.co/400",
-        price: 36.99,
-        currency: "PLN"
-    },
-    {
-        title: "Wawrzywnik",
-        animals: ['hamster'],
-        categories: 'ground-house',
-        image: "https://placehold.co/400",
-        price: 46.99,
-        currency: "PLN"
-    },
-    {
-        title: "Domek dla ptaka",
-        animals: ['bird'],
-        categories: 'ground-house',
-        image: "https://placehold.co/400",
-        price: 156.99,
-        currency: "PLN"
-    },
-]
+// const fakeProducts: productsType = [
+//     {
+//         title: "Domek sosnowy",
+//         animals: ['bird'],
+//         categories: 'three-house',
+//         image: "https://placehold.co/400",
+//         price: 256.99,
+//         currency: "PLN"
+//     },
+//     {
+//         title: "Domek brzozowy",
+//         animals: ['bird'],
+//         categories: 'three-house',
+//         image: "https://placehold.co/400",
+//         price: 336.99,
+//         currency: "PLN"
+//     },
+//     {
+//         title: "Domek dębowy",
+//         animals: ['bird'],
+//         categories: 'three-house',
+//         image: "https://placehold.co/400",
+//         price: 96.99,
+//         currency: "PLN"
+//     },
+//     {
+//         title: "Mała Chatka",
+//         animals: ['hamster', 'hedgehog'],
+//         categories: 'ground-house',
+//         image: "https://placehold.co/400",
+//         price: 36.99,
+//         currency: "PLN"
+//     },
+//     {
+//         title: "Wawrzywnik",
+//         animals: ['hamster'],
+//         categories: 'ground-house',
+//         image: "https://placehold.co/400",
+//         price: 46.99,
+//         currency: "PLN"
+//     },
+//     {
+//         title: "Domek dla ptaka",
+//         animals: ['bird'],
+//         categories: 'ground-house',
+//         image: "https://placehold.co/400",
+//         price: 156.99,
+//         currency: "PLN"
+//     },
+// ]
 
 
 const coreData = reactive<any>({
@@ -101,9 +101,10 @@ async function loadData(collectionName:string) {
     const data = querySnapshot.docs.map((doc) => ({data: doc.data(), id: doc.id}));
     coreData[collectionName] = [...data];
     coreData.pending = false;
+    
 }
 
-onMounted(()=>loadData('products'))
+onMounted(()=>loadData('products'));
 
 const inputRef = ref(null)
 
@@ -117,7 +118,7 @@ type configType = {
     }
 }
 
-let filterForm: configType = {
+let filterForm: configType['filter'] = {
     animal: "",
     category: ""
 }
@@ -132,10 +133,11 @@ const config = reactive<configType>({
 });
 
 function removeFocus(e) {
+    console.log(results.value);
     if (config.focus && inputRef.value !== e.target) config.focus = false
 }
 
-function updateFilter(key, value) {
+function updateFilter(key:string, value:string) {
     config.filter[key] = value
 }
 
@@ -145,24 +147,23 @@ function resetFilter() {
 }
 
 
-//const newArray = computed(() => {
-//    return coreData.products.filter(item => {
-//        if (config.filter.category && config.filter.animal) {
-//            return item.categories === config.filter.category && item.animals.includes(config.filter.animal);
-//        } else if (config.filter.category) {
-//            return item.categories === config.filter.category;
-//        } else if (config.filter.animal) {
-//            return item.animals.includes(config.filter.animal);
-//        } else {
-//            return true;
-//        }
-//    });
-//});
+const newArray = computed(() => {
+   return coreData.products.filter(({data}) => {
+       if (config.filter.category && config.filter.animal) {
+           return data.category === config.filter.category && data.animal.includes(config.filter.animal);
+       } else if (config.filter.category) {
+           return data.category === config.filter.category;
+       } else if (config.filter.animal) {
+           return data.animal.includes(config.filter.animal);
+       } else {
+           return true;
+       }
+   });
+});
 
-const results: any[] = computed(() => config.query.length > 2 && fakeProducts.filter(item => item.title.includes(config.query)))
+const results: any = computed(() => config.query.length > 2 && coreData.products.filter(({data}) => data.title.includes(config.query)))
 
 function showProduct(item) {
-    console.log(item)
     config.query = item.title
 }
 
