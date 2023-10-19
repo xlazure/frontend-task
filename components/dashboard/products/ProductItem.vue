@@ -1,20 +1,26 @@
 <template>
     <div :class="isMinView ? 'grid' : 'list'">
         <div :class="isMinView ? 'gridBox' : 'listBox'">
-            <img :src="item.image ? item.image : 'https://placehold.co/400'"/>
-            <p>{{ item.title }}</p>
-            <p>{{ item.animal }}</p>
-            <p>{{ item.category }}</p>
-            <p>{{ item.price + " " + item.currency }}</p>
-            <button>Dodaj do koszyka</button>
+            <img :src="data.image ? data.image : 'https://placehold.co/400'" />
+            <p>{{ data.title }}</p>
+            <p>{{ data.animal }}</p>
+            <p>{{ data.category }}</p>
+            <p>{{ data.price + " " + data.currency }}</p>
+            <button @click="add">Dodaj do koszyka</button>
         </div>
 
     </div>
 </template>
 
 <script setup lang="ts">
-const {item, isMinView} = defineProps(['item', 'isMinView'])
+const nuxtApp = useNuxtApp()
+const { item, isMinView } = defineProps(['item', 'isMinView'])
+const {data} = item;
+const addToCart = nuxtApp.addToCart
 
+function add() {
+    addToCart(item)
+}
 </script>
 
 <style lang="scss" scoped>

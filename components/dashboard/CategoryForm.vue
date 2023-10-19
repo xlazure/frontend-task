@@ -31,7 +31,6 @@ async function loadData(collectionName:string) {
     const querySnapshot = await getDocs(collection(db, collectionName));
     const data = querySnapshot.docs.map((doc) => ({data: doc.data(), id: doc.id}));
     filters[collectionName] = [...data];
-    console.log(filters);
     
 }
 

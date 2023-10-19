@@ -6,7 +6,7 @@
 </template>
 
 <script setup lang="ts">
-import PanelNavigationCreateForm from '@/components/panel/navigation/createForm.vue'
+import PanelNavigationCreateForm from '@/components/navigation/createForm.vue'
 </script>
 
 <style scoped>

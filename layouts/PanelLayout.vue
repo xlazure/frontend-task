@@ -8,7 +8,7 @@
 </template>
 
 <script setup>
-import MainNavigation from "@/components/panel/navigation/main.vue";
+import MainNavigation from "@/components/navigation/main.vue";
 </script>
 
 <style lang="scss">
