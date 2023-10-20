@@ -1,22 +1,7 @@
 <template>
     <div class="options">
 
-        <div>
-            <label>
-                Select all
-                <input type="checkbox">
-            </label>
-
-            <button>
-                REMOVE
-            </button>
-            <button>
-                PUBLISH
-            </button>
-            <button>
-                UNPUBLISH
-            </button>
-        </div>
+        <slot />
     </div>
 </template>
 
@@ -28,7 +13,8 @@
 .options {
     padding: .5em;
     display: inline-flex;
-    justify-content: space-between;
+    justify-content: flex-start;
+    gap:.5em;
     width: 100%;
     background-color: #c3c3c3;
 }

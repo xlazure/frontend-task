@@ -22,7 +22,6 @@ const {list, isMinView,pending} = defineProps(['list', 'isMinView','pending'])
 }
 
 .products {
-    outline: 1px dotted black;
     padding: 0.5em;
     display: flex;
     flex-wrap: wrap;

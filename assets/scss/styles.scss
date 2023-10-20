@@ -6,3 +6,13 @@
   font-weight: bold;
   background-color: #3058d0;
 }
+
+
+button,select {
+  background-color:transparent;
+  border: none;
+}
+
+select {
+  border-bottom: 1px solid #000;
+}
