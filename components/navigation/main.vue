@@ -34,6 +34,7 @@ const isOpen = ref<boolean>(true)
 
 
 .navigation {
+    overflow: hidden;
     position: relative;
 
     &__links {
